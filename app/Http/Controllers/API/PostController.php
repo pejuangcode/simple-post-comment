@@ -22,7 +22,12 @@ class PostController extends BaseController
     {
         $posts = Post::with('user', 'comments', 'comments.replies',  'comments.user', 'comments.replies.user')
         ->orderBy('id', 'DESC')->get();
-      
+     
+        $token = auth()->user()->token();
+        $expiresDate = $token->expires_at;
+        // $currentDate = now();
+        // dd(now()->diff($expiresDate));
+
         return $this->sendResponse(PostResource::collection($posts), 'Post retrieved successfully.');
     }
     /**
