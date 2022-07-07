@@ -18,11 +18,28 @@ class PostsTest extends TestCase
      */
 
 
-    public function it_returns_an_author_as_a_resource_object()
+    public function test_posts_listed_successfully()
     {
-        $user = User::factory()->create();
-        $this->actingAs($user, 'api');
-        $data = [ "body" => "Selamat datang"];
+        $this->actingAs(
+            User::factory()->create(),
+            'api'
+        );
+        
+        $data = ["body" => "Selamat datang"];
         $this->json('POST', 'api/posts', $data, ['Accept' => 'application/json'])->assertStatus(200);
     }
+
+    public function test_post_can_be_created()
+    {
+        $this->actingAs(
+            User::factory()->create(), 
+        );
+
+        $this->post('/api/posts')->assertStatus(200);
+
+    }
+
+
+
+
 }
