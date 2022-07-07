@@ -6,10 +6,10 @@ use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use Illuminate\Support\Facades\DB;
-// use App\Repositories\PostRepository;
 
 class PostController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *

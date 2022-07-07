@@ -8,6 +8,7 @@ use App\Models\Post;
 use Validator;
 use App\Http\Resources\PostResource;
 use App\Http\Requests\StorePostRequest;
+use App\Http\Requests\UpdatePostRequest;
 use Illuminate\Support\Facades\DB;
 
      
@@ -71,7 +72,7 @@ class PostController extends BaseController
         if (is_null($post)) {
             return $this->sendError('Post not found.');
         }
-     
+
         return $this->sendResponse(new PostResource($post), 'Post retrieved successfully.');
     }
     
@@ -82,16 +83,19 @@ class PostController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StorePostRequest $request, Post $post)
+    public function update(UpdatePostRequest $request, Post $post)
     {
              
         DB::beginTransaction();   
         
         try {
 
-            $post = Post::update([
-                'body' => $request->body,
-            ]);
+            // $post = $post->update([
+            //     'body' => $request->body,
+            // ]);
+
+            $post->body = $request->body;
+            $post->save();
             DB::commit();
 
             return $this->sendResponse(new PostResource($post), 'Post updated successfully.');

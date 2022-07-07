@@ -15,10 +15,15 @@ use App\Http\Controllers\CommentController;
 |
 */
 
+// Route::get('/', [PostController::class, 'index']);
+
+Route::get('/', function () {
+    return view('app');
+});
 
 Route::middleware('auth')->group(function () {
     Route::middleware('isBanned')->group(function () {
-        Route::get('/', [PostController::class, 'index']);
+       
         Route::get('/dashboard', [PostController::class, 'index'])->name('dashboard');
         Route::resource('posts', PostController::class);
         Route::resource('comments', CommentController::class); 
