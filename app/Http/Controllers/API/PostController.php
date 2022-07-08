@@ -90,10 +90,6 @@ class PostController extends BaseController
         
         try {
 
-            // $post = $post->update([
-            //     'body' => $request->body,
-            // ]);
-
             $post->body = $request->body;
             $post->save();
             DB::commit();
@@ -134,4 +130,5 @@ class PostController extends BaseController
      
 
     }
+
 }

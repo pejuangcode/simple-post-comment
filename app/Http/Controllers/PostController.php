@@ -98,7 +98,25 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        //
+        DB::beginTransaction();   
+        
+        try {
+
+            $post->body = $request->body;
+            $post->save();
+
+            DB::commit();
+            return redirect()
+                    ->back()
+                    ->with('success', 'Update sent successfully');
+
+        } catch(\Exception $e) {
+            
+            DB::rollBack();
+            return redirect()
+                    ->back()
+                    ->with('error', 'Update sent not successfully'); 
+        }
     }
 
     /**
@@ -117,8 +135,6 @@ class PostController extends Controller
             $post->delete();
             DB::commit();
 
-            //$result = parent::delete();
-            
             return redirect()
                     ->back()
                     ->with('success', 'Data deleted successfully');

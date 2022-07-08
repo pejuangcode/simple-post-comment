@@ -23,7 +23,15 @@ use App\Http\Controllers\API\PostController;
 
 Route::post('register', [RegisterController::class, 'register']);
 Route::post('login', [RegisterController::class, 'login']);
-     
+
+Route::get('getdata', function(){
+    return response()->json([ 'website'=>'Pundi Mas Berjaya' ]);
+});
+
+Route::get('status', function () {
+    abort(404);
+});
+
 Route::middleware('auth:api')->group( function () {
     Route::resource('posts', PostController::class);
     Route::post('/logout', [RegisterController::class, 'logout']);
