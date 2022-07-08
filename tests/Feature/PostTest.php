@@ -16,11 +16,9 @@ class PostTest extends TestCase
      * @test
      * 
      */
-    public function test_index_post()
+    public function testIndex()
     {
-        $response = $this->get('/posts');
-
-        $response->assertStatus(302);
+        $this->get('/posts')->assertStatus(302);
     }
     /**
      * A basic feature test example.
@@ -28,26 +26,15 @@ class PostTest extends TestCase
      * @test
      * 
      */
-    public function test_store_post()
+    public function testStore()
     {
-        /**
-        * Acting as berfungsi sebagai autentikasi, jika kita menghilangkannya maka akan error.
-        */
-        $response = $this->actingAs(User::factory()->create())
-            ->post(route('posts.store'), [
-                'body' => 'Selamat datang',
-                'user_id' =>  User::all()->random()->id,
-            ]);
 
-        /**
-        * Espektasi status 302, yang berarti redirect status code.
-        */
-        $response->assertStatus(302);
+        $params = ['body' => 'Selamat datang', 'user_id' =>  $this->randomUserId()];
 
-        /**
-        * Espektasi bahwa setelah POST diarahkan ke posts.index
-        */
-        $response->assertRedirect('/');
+        $this->actingAsUser()
+            ->post(route('posts.store'), $params)
+            ->assertStatus(302)
+            ->assertRedirect('/');
     }
 
     /**
@@ -56,17 +43,15 @@ class PostTest extends TestCase
      * @test
      * 
      */
-    public function test_update_post()
+    public function testUpdate()
     {
         $post_id = Post::all()->random()->id;
 
-        $response = $this->actingAs(User::factory()->create())
-            ->patch("/posts/{$post_id}", [
-                'body'=>'Its time '. now(),
-            ]);
-      
-        $response->assertStatus(302);
-        $response->assertRedirect('/');
+        this->actingAsUser()
+            ->patch("/posts/{$post_id}", ['body'=>'Its time '. now(),])
+            ->assertStatus(302);
+
+        $this->assertRedirect('/');
     }
 
     /**
@@ -75,13 +60,11 @@ class PostTest extends TestCase
      * @test
      * 
      */
-    public function test_edit_post()
+    public function testEdit()
     {
         $post_id = Post::all()->random()->id;
 
-        $response = $this->get("/posts/{$post_id}/edit");
-
-        $response->assertStatus(302);
+        $this->get("/posts/{$post_id}/edit")->assertStatus(302);
     }
 
         /**
@@ -90,16 +73,26 @@ class PostTest extends TestCase
      * @test
      * 
      */
-    public function test_delete_post()
+    public function testDelete()
     {
         $post_id = Post::all()->random()->id;
 
-        $response = $this->actingAs(User::factory()->create())
-            ->post("/posts/{$post_id}",[
-                '_method' => "DELETE"
-            ]);
-
-        $response->assertStatus(302);
-        $response->assertRedirect('/');
+        $this->actingAsUser()
+            ->delete("/posts/{$post_id}")
+            ->assertStatus(302)
+            ->assertRedirect('/');
     }
+
+    private function validParams($overrides = [])
+    {
+        $post = Post::factory()->create();
+
+        return array_merge([
+            'content' => 'Great article ! Thanks for sharing it with us.',
+            'posted_at' => $post->posted_at->addDay()->format('Y-m-d\TH:i'),
+            'post_id' => $post->id,
+            'author_id' => User::factory()->create()->id,
+        ], $overrides);
+    }
+
 }

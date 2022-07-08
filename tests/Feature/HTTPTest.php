@@ -15,8 +15,8 @@ class HTTPTest extends TestCase
      */
     public function test_example()
     {
-        $response = $this->get('api/getdata');
-        $response->assertJson(['website'=>'Pundi Mas Berjaya']);
+        $this->get('api/getdata');
+        $this->assertJson(['website'=>'Pundi Mas Berjaya']);
     }
 
     /**
@@ -26,9 +26,7 @@ class HTTPTest extends TestCase
      */
     public function testView()
     {
-      $response = $this->get('/');
-
-      $response->assertViewIs('app');
+       $this->get('/')->assertViewIs('app');
     }
 
      /**
@@ -38,9 +36,7 @@ class HTTPTest extends TestCase
      */
     public function testStatusCode()
     {
-        $response = $this->get('api/status');
-
-        $response->assertStatus(404);
+        $this->get('api/status')->assertStatus(404);
     }
 
 }
