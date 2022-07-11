@@ -22,13 +22,8 @@ class PostController extends BaseController
     public function index()
     {
         $posts = Post::with('user', 'comments', 'comments.replies',  'comments.user', 'comments.replies.user')
-        ->orderBy('id', 'DESC')->get();
+            ->orderBy('id', 'DESC')->get();
      
-        $token = auth()->user()->token();
-        $expiresDate = $token->expires_at;
-        // $currentDate = now();
-        // dd(now()->diff($expiresDate));
-
         return $this->sendResponse(PostResource::collection($posts), 'Post retrieved successfully.');
     }
     /**
@@ -50,7 +45,7 @@ class PostController extends BaseController
             ]);
             DB::commit();
      
-            return $this->sendResponse(new PostResource($post), 'Post created successfully.');
+            return $this->sendResponse(new PostResource($post), 'Post created successfully.', 201);
 
         } catch(\Exception $e) {
             
@@ -120,7 +115,7 @@ class PostController extends BaseController
             $post->delete();
             DB::commit();
 
-            return $this->sendResponse([], 'Post deleted successfully.');
+            return $this->sendResponse([], 'Post deleted successfully.', 204);
 
         } catch(\Exception $e) {
             

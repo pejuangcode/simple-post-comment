@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StorePostRequest extends FormRequest
 {
@@ -25,6 +26,12 @@ class StorePostRequest extends FormRequest
     {
         return [
             'body' => 'required',
+            'user_id' => 'required',
         ];
+    }
+
+    public function messages()
+    {
+        return ['user_id.required' => 'You dont have permission'];
     }
 }

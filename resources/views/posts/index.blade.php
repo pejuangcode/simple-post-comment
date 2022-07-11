@@ -17,6 +17,7 @@
                             </div>
                         @endif
                         <textarea name="body" class="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white"  placeholder='Type Your Post'>{{ old('body') }}</textarea>
+                        <input name="user_id" type="hidden" value="{{ auth()->user()->id }}" />
                         @error('body')
                             <div class="mb-2 text-sm text-red-700 dark:text-red-800" role="alert">
                                 {{ $message }}
@@ -38,7 +39,7 @@
             <div class="flex mx-auto items-center justify-center shadow-lg mx-8 mb-4 max-w-lg">
                 <div class="w-full max-w-xl bg-white rounded-lg px-4 pt-2">
                     <div class="flex items-center space-x-4 mt-4">
-                        <img class="w-10 h-10 rounded-full" src="{{ $post->user->avatar }}" alt="">
+                        <img class="w-10 h-10 rounded-full" src="{{ $post->user->avatar  ?? null }}" alt="">
                         <div class="space-y-1 font-medium dark:text-white">
                             <div>{{ $post->user->name }}</div>
                             <div class="text-sm text-gray-500 dark:text-gray-400">Post at {{ Carbon\Carbon::parse($post->created_at)->format('H:i:s') }} </div>
@@ -76,7 +77,7 @@
                         <div class="flex flex-col">
                             @foreach($post->comments as $comment)
                                 <div class="flex items-center space-x-4 mt-4 mx-6 border-x-4">
-                                    <img class="w-10 h-10 rounded-full" src="{{ $comment->user->avatar }}" alt="">
+                                    <img class="w-10 h-10 rounded-full" src="{{ $comment->user->avatar ?? null }}" alt="">
                                     <form method="POST" action="{{ route('comments.store') }}">
                                         @csrf
                                         <div class="space-y-1 font-medium dark:text-white">
@@ -99,7 +100,7 @@
                                 </div>
                                 @foreach($comment->replies as $reply) 
                                     <div class="flex items-center space-x-4 mt-4 mx-6 ">
-                                        <img class="w-10 h-10 rounded-full ml-10" src="{{ $reply->user->avatar }}" alt="">
+                                        <img class="w-10 h-10 rounded-full ml-10" src="{{ $reply->user->avatar ?? null }}" alt="">
                                         <form method="POST" action="">
                                             @csrf
                                             <div class="space-y-1 font-medium dark:text-white">

@@ -17,7 +17,7 @@ class IsBanned
     public function handle(Request $request, Closure $next)
     {
         if ($request->user()->is_banned == true) {
-            return redirect('/banned')->with('isBanned','Your account has been banned');
+            abort(403);
         }
 
         return $next($request);

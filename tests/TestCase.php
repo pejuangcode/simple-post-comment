@@ -29,7 +29,7 @@ abstract class TestCase extends BaseTestCase
         return $this;
     }
 
-    private function randomUserId()
+    protected function randomUserId()
     {
         return User::all()->random()->id;
     }
