@@ -110,12 +110,15 @@ class PostTest extends TestCase
     {
         $post = Post::factory()->create();
 
-        $this->actingAsUser()
+        $response = $this->actingAsUser()
             ->get("/posts/{$post->id}/edit")
             ->assertOk();
+    
+        \Artisan::call("post:test", [ "message" => $response]);
     }
 
-        /**
+
+    /**
      * A basic feature test example.
      *
      * @test
