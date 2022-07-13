@@ -21,7 +21,7 @@ class PostController extends Controller
     {
         // $posts = Post::orderBy('id', 'DESC')->get();
          $posts = Post::with('user', 'comments', 'comments.replies',  'comments.user', 'comments.replies.user')
-            ->orderBy('id', 'DESC')->get();
+            ->orderBy('id', 'DESC')->paginate();
 
         return view('posts/index', compact('posts'));
     }

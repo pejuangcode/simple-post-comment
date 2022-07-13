@@ -17,7 +17,7 @@ class PostTest extends TestCase
      * @test
      * 
      */
-
+    use RefreshDatabase;
 
 
     public function testIndex()

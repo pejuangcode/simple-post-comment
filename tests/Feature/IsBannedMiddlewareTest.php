@@ -9,6 +9,7 @@ use App\Models\User;
 
 class IsBannedMiddlewareTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      *
