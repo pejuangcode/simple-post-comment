@@ -6,6 +6,8 @@ use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use Illuminate\Support\Facades\DB;
+use App\Events\PostWasCreated;
+use App\Events\PostWasDeleted;
 
 class PostController extends Controller
 {
@@ -47,16 +49,18 @@ class PostController extends Controller
         
         try {
 
-            Post::create([
+            $post = Post::create([
                 'body' => $request->body,
                 'user_id' => auth()->user()->id,
             ]);
 
             DB::commit();
+
+            event(new PostWasCreated($post));
             return redirect()
                     ->back()
                     ->with('success', 'Comment sent successfully');
-
+                    
         } catch(\Exception $e) {
             
             DB::rollBack();
@@ -134,6 +138,8 @@ class PostController extends Controller
             $post->comments()->delete();
             $post->delete();
             DB::commit();
+
+            event (new PostWasDeleted("telah dihapus.."));
 
             return redirect()
                     ->back()

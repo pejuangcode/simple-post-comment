@@ -18,6 +18,12 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        \App\Events\PostWasCreated::class => [
+            \App\Listeners\SendToLog::class,
+        ],
+        \App\Events\PostWasDeleted::class => [
+            \App\Listeners\SendToLogDeleted::class,
+        ],
     ];
 
     /**
@@ -28,5 +34,15 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+    }
+
+    /**
+     * Determine if events and listeners should be automatically discovered.
+     *
+     * @return bool
+     */
+    public function shouldDiscoverEvents()
+    {
+        return true;
     }
 }
