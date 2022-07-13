@@ -6,7 +6,7 @@ use App\Events\PostWasCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class SendToLog
+class SendToLogCreated
 {
     /**
      * Create the event listener.

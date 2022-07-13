@@ -19,7 +19,7 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         \App\Events\PostWasCreated::class => [
-            \App\Listeners\SendToLog::class,
+            \App\Listeners\SendToLogCreated::class,
         ],
         \App\Events\PostWasDeleted::class => [
             \App\Listeners\SendToLogDeleted::class,
