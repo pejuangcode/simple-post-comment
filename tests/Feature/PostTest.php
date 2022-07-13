@@ -17,6 +17,9 @@ class PostTest extends TestCase
      * @test
      * 
      */
+
+
+
     public function testIndex()
     {
         $post = Post::factory()->count(2)->create();
@@ -114,7 +117,6 @@ class PostTest extends TestCase
             ->get("/posts/{$post->id}/edit")
             ->assertOk();
     
-        \Artisan::call("post:test", [ "message" => $response]);
     }
 
 
