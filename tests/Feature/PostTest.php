@@ -78,10 +78,6 @@ class PostTest extends TestCase
         $response->assertSessionHasErrors('user_id', 'You dont have permission'); 
     }
 
-
-
-    
-
     /**
      * A basic feature test example.
      *

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,8 @@ Route::get('/', function () {
     return view('app');
 });
 
+Route::get('index', [SearchController::class, 'search']);
+
 Route::middleware('auth')->group(function () {
     Route::middleware('isBanned')->group(function () {
        
@@ -30,8 +33,11 @@ Route::middleware('auth')->group(function () {
     });
 });
 
+
 Route::get('/banned', function () {
     return view('posts/banned');
 });
+
+
 
 require __DIR__.'/auth.php';

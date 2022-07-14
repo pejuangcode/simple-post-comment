@@ -8,6 +8,7 @@ use App\Http\Requests\UpdatePostRequest;
 use Illuminate\Support\Facades\DB;
 use App\Events\PostWasCreated;
 use App\Events\PostWasDeleted;
+use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -17,10 +18,12 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // $posts = Post::orderBy('id', 'DESC')->get();
-         $posts = Post::with('user', 'comments', 'comments.replies',  'comments.user', 'comments.replies.user')
+        //[$cretira, $value] = explode(":", $request->filter);
+
+
+        $posts = Post::with('user', 'comments', 'comments.replies',  'comments.user', 'comments.replies.user')
             ->orderBy('id', 'DESC')->paginate();
 
         return view('posts/index', compact('posts'));
